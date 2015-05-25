@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/ivanStraltsou/nodejs-training/issues"
   },
-  "homepage": "https://github.com/ivanStraltsou/nodejs-training"
+  "homepage": "https://github.com/ivanStraltsou/nodejs-training",
+  "devDependencies": {
+    "buster": "^0.7.18"
+  },
+  "dependencies": {
+    "q": "^1.4.1"
+  }
 }

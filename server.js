@@ -3,6 +3,7 @@ var url = require('url');
 var querystring = require('querystring');
 
 var QueryFile = require('./query-file');
+var zipUtil = require('./zip');
 
 var options = {
   PORT: 3000
@@ -46,6 +47,34 @@ http.createServer(function (req, res) {
           }).join(''), + '</ul>');
 
         });
+
+        break;
+
+      case '/gzip':
+        if (req.method == 'POST') {
+          var body = [];
+
+          req.on('data', function (chunk) {
+            body.push(chunk);
+
+            if (body.length > 1e7)
+              req.connection.destroy();
+          });
+
+          req.on('end', function () {
+            var post = querystring.parse(body.join(''));
+
+            zipUtil.zip(post.filename, post.content).then(onSuccess);
+          });
+        }
+
+        break;
+
+      case '/ungzip':
+        zipUtil.unzip(reqQuery.filename, res)
+          .then(function() {
+            res.end();
+          });
 
         break;
 
